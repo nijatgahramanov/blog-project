@@ -1,6 +1,7 @@
 package com.blogproject.project.service;
 
 import com.blogproject.project.dto.request.PostCreateRequest;
+import com.blogproject.project.dto.request.PostUpdateRequest;
 import com.blogproject.project.entity.Post;
 import com.blogproject.project.entity.User;
 import com.blogproject.project.repository.PostRepository;
@@ -38,5 +39,21 @@ public class PostService {
         toSave.setTitle(newPostCreateRequest.getTitle());
         toSave.setUser(user);
         return postRepository.save(toSave);
+    }
+
+    public Post updateOnePostById(Long postId, PostUpdateRequest updatePost) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isPresent()) {
+            Post toUpdate = post.get();
+            toUpdate.setText(updatePost.getText());
+            toUpdate.setTitle(updatePost.getTitle());
+            postRepository.save(toUpdate);
+            return toUpdate;
+        }
+        return null;
+    }
+
+    public void deleteOnePostById(Long postId) {
+        postRepository.deleteById(postId);
     }
 }
