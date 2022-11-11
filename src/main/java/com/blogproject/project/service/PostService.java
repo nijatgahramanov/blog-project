@@ -2,6 +2,9 @@ package com.blogproject.project.service;
 
 import com.blogproject.project.dto.request.PostCreateRequest;
 import com.blogproject.project.dto.request.PostUpdateRequest;
+import com.blogproject.project.dto.response.LikeResponse;
+import com.blogproject.project.dto.response.PostResponse;
+import com.blogproject.project.entity.Like;
 import com.blogproject.project.entity.Post;
 import com.blogproject.project.entity.User;
 import com.blogproject.project.repository.PostRepository;
@@ -10,17 +13,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private  LikeService likeService;
 
-    public List<Post> getAllPost(Optional<Long> userId) {
+    public void setLikeService(LikeService likeService){
+        this.likeService = likeService;
+    }
+
+    public List<PostResponse> getAllPost(Optional<Long> userId) {
+        List<Post> list;
         if (userId.isPresent())
-            return postRepository.findByUserId(userId.get());
-        return postRepository.findAll();
+            list =  postRepository.findByUserId(userId.get());
+        list = postRepository.findAll();
+        return list.stream().map(p->{
+            List<LikeResponse> likes = likeService.getAllLikeWithParam(null,Optional.of(p.getId()));
+            return new PostResponse(p,likes);}).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {

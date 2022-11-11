@@ -16,6 +16,7 @@ import java.util.Optional;
 public class LikeController {
     private final LikeService likeService;
 
+
     @GetMapping
     public List<LikeResponse> getAllLike(@RequestParam Optional<Long> userId,
                                          @RequestParam Optional<Long> postId) {

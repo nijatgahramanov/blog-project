@@ -2,6 +2,7 @@ package com.blogproject.project.controller;
 
 import com.blogproject.project.dto.request.PostCreateRequest;
 import com.blogproject.project.dto.request.PostUpdateRequest;
+import com.blogproject.project.dto.response.PostResponse;
 import com.blogproject.project.entity.Post;
 import com.blogproject.project.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public List<Post> getAllPost(@RequestParam Optional<Long> userId) {
+    public List<PostResponse> getAllPost(@RequestParam Optional<Long> userId) {
         return postService.getAllPost(userId);
     }
 

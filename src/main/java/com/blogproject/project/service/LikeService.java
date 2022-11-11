@@ -6,8 +6,6 @@ import com.blogproject.project.entity.Like;
 import com.blogproject.project.entity.Post;
 import com.blogproject.project.entity.User;
 import com.blogproject.project.repository.LikeRepository;
-import com.blogproject.project.repository.PostRepository;
-import com.blogproject.project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +31,7 @@ public class LikeService {
         } else
             list = likeRepository.findAll();
 
-        return list.stream()
-                .map(like -> new LikeResponse(like)).collect(Collectors.toList());
+        return list.stream().map(like->new LikeResponse(like)).collect(Collectors.toList());
 
     }
 
